@@ -22,7 +22,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    compile 'org.apache.commons:commons-lang3'
+    //compile 'org.apache.commons:commons-lang3'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
