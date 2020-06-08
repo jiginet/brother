@@ -21,5 +21,11 @@ public class CrossingTruckTest {
         int[] p3 = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
         assertThat(quiz.solution(100, 100, p3), is(110));
 
+
+
+        assertThat(quiz.solution2(2, 10, p1), is(8));
+        assertThat(quiz.solution2(100, 100, p2), is(101));
+        assertThat(quiz.solution2(100, 100, p3), is(110));
+
     }
 }

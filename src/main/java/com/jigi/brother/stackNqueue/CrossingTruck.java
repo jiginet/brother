@@ -1,31 +1,106 @@
 package com.jigi.brother.stackNqueue;
 
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class CrossingTruck {
 
+    class Truck {
+        private final int weight;
+        private int distance;
+
+        public Truck(int weight, int distance) {
+            this.weight = weight;
+            this.distance = distance;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public int getDistance() {
+            return distance;
+        }
+
+        public void setDistance(int distance) {
+            this.distance = distance;
+        }
+    }
+
+    /**
+     * 내가 푼 방식
+     * @param bridge_length
+     * @param weight
+     * @param truck_weights
+     * @return
+     */
     public int solution(int bridge_length, int weight, int[] truck_weights) {
 
-        // 아직 미구현 : 구현해야 함
+        BlockingQueue<Truck> bridge = new ArrayBlockingQueue<>(bridge_length);
 
+        int n = 0;
         int answer = 0;
+        int sumWeight = 0;
+        int truckWeight = 0;
+        do {
+            answer++;
+            if (bridge.peek() != null) {
+                for (Truck t : bridge) {
+                    t.setDistance(t.getDistance() + 1);
+                }
+
+                if (bridge.peek().getDistance() > bridge_length) {
+                    Truck truck = bridge.poll();
+                    sumWeight -= truck.getWeight();
+                }
+            }
+
+            if (n < truck_weights.length) {
+                truckWeight = truck_weights[n];
+                if (weight >= truckWeight + sumWeight) {
+                    Truck newTruck = new Truck(truckWeight, 1);
+                    if (bridge.offer(newTruck)) {
+                        sumWeight += truckWeight;
+                        n++;
+                    }
+                }
+            }
+        } while (!bridge.isEmpty());
+
         return answer;
     }
 
-    // 백트래킹 사용
-    // 사용 예시 : combination(arr, visited, 0, n, r)
-    private void combination(int[] arr, boolean[] visited, int start, int n, int r) {
-        if (r == 0) {
-            System.out.println(arr);
-            return;
+    /**
+     * 다른사람이 푼 방식
+     *
+     * @param bridge_length
+     * @param weight
+     * @param truck_weights
+     * @return
+     */
+    public int solution2(int bridge_length, int weight, int[] truck_weights) {
+        int answer = 0;
+        int sum = 0, i = 0;
+        Queue<Integer> q = new LinkedList<>();
+        for (int j = 0; j < bridge_length; j++) {
+            q.offer(0);
         }
-
-        for (int i = start; i < n; i++) {
-            visited[i] = true;
-            combination(arr, visited, i + 1, n, r - 1);
-            visited[i] = false;
+        while (!q.isEmpty()) {
+            int popped = q.poll();
+            sum -= popped;
+            if (i < truck_weights.length) {
+                if (sum + truck_weights[i] <= weight) {
+                    q.offer(truck_weights[i]);
+                    sum += truck_weights[i];
+                    i++;
+                } else {
+                    q.offer(0);
+                }
+            }
+            answer++;
         }
+        return answer;
     }
-
 }
