@@ -17,6 +17,7 @@ class FunctionDevelopmentTest {
         int[] r1 = {2, 1};
         assertThat(quiz.solution(p1, p2), is(r1));
 
+        assertThat(quiz.solution2(p1, p2), is(r1));
 
     }
 
