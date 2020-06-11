@@ -48,4 +48,26 @@ public class UsableSquare {
 
         return totalCount - diagonalCount;
     }
+
+
+    /**
+     * 다른사람이 푼 방식 : 최대공약수를 재귀함수로 구해 풀었다.
+     *
+     * @param w
+     * @param h
+     * @return
+     */
+    public long solution3(long w, long h) {
+        long lgcd = gcd(w, h);
+        long answer = w * h - (w + h - lgcd);
+        return answer;
+    }
+
+    public long gcd(long a, long b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
 }
