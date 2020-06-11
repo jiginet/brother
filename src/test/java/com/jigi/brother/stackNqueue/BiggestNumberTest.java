@@ -1,4 +1,4 @@
-package com.jigi.brother.combination;
+package com.jigi.brother.stackNqueue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

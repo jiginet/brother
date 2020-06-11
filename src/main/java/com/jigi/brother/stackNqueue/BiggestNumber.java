@@ -1,4 +1,4 @@
-package com.jigi.brother.combination;
+package com.jigi.brother.stackNqueue;
 
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -48,6 +48,7 @@ public class BiggestNumber {
 
     /**
      * 다른사람이 푼 방식, 간결하면서, 성능도 뛰어나다.
+     *
      * @param number
      * @param k
      * @return
