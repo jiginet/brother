@@ -5,19 +5,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PassedRoad {
-    private Set<String> passedSet = new HashSet<>();
-    private Point location = new Point(5, 5);
+    private final Set<String> passedRoad = new HashSet<>();
+    private final Point currentLocation = new Point(5, 5);
 
     public int solution(String dirs) {
 
         for (char direction : dirs.toCharArray()) {
-            movePlayer(location, direction);
+            move(currentLocation, direction);
         }
 
-        return passedSet.size();
+        return passedRoad.size();
     }
 
-    private void movePlayer(Point location, char direction) {
+    private void move(Point location, char direction) {
         switch (direction) {
             case 'U':
                 goingUp(location);
@@ -31,15 +31,6 @@ public class PassedRoad {
             case 'R':
                 goingRight(location);
                 break;
-        }
-    }
-
-    private void addPath(Point source, Point destination) {
-        if (source.x != destination.x || source.y != destination.y) {
-            String sourcePath = "" + source.x + source.y;
-            String destinationPath = "" + destination.x + destination.y;
-            String newPath = sourcePath.compareTo(destinationPath) == -1 ? sourcePath + destinationPath : destinationPath + sourcePath;
-            passedSet.add(newPath);
         }
     }
 
@@ -73,5 +64,14 @@ public class PassedRoad {
             destination.y++;
         }
         addPath(source, destination);
+    }
+
+    private void addPath(Point source, Point destination) {
+        if (source.x != destination.x || source.y != destination.y) {
+            String sourcePath = "" + source.x + source.y;
+            String destinationPath = "" + destination.x + destination.y;
+            String newPath = sourcePath.compareTo(destinationPath) == -1 ? sourcePath + destinationPath : destinationPath + sourcePath;
+            passedRoad.add(newPath);
+        }
     }
 }
