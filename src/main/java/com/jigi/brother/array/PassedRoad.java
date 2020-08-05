@@ -68,8 +68,8 @@ public class PassedRoad {
 
     private void addPath(Point source, Point destination) {
         if (source.x != destination.x || source.y != destination.y) {
-            String sourcePath = "" + source.x + source.y;
-            String destinationPath = "" + destination.x + destination.y;
+            String sourcePath = String.format("%02d", source.x) +  String.format("%02d", source.y);
+            String destinationPath = String.format("%02d", destination.x) +  String.format("%02d", destination.y);
             String newPath = sourcePath.compareTo(destinationPath) == -1 ? sourcePath + destinationPath : destinationPath + sourcePath;
             passedRoad.add(newPath);
         }

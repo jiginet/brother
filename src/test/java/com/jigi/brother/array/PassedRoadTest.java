@@ -27,7 +27,7 @@ class PassedRoadTest {
         assertThat(quiz.solution("LLLLLLLLLLLLLLLLLLLLL"), is(5));
 
         quiz = new PassedRoad();
-        assertThat(quiz.solution("LLLLLLUUUUUURRRRRRDDDDDLLLLLLRRRRRR"), is(21));
+        assertThat(quiz.solution("LLLLLLUUUUUURRRRRDDDDDLLLLLLRRRRRR"), is(21));
 
 
     }
