@@ -22,10 +22,11 @@ class FindBiggestSquareTest {
         assertThat(quiz.solution(p1), is(9));
         assertThat(quiz.solution2(p1), is(9));
 
-//        int[][] p1000000 = {
-//                {1, 0},
-//                {0, 0},
-//        };
+        int[][] p1000000 = {
+                {1, 1},
+                {0, 1},
+        };
+        assertThat(quiz.solution(p1000000), is(1));
 //        assertThat(quiz.solution2(p1000000), is(1));
 
         int[][] p10 = {
@@ -68,5 +69,26 @@ class FindBiggestSquareTest {
         };
         assertThat(quiz.solution(p100000), is(1));
         assertThat(quiz.solution2(p100000), is(1));
+
+        int[][] p10000000 = {
+                {1, 1},
+        };
+        assertThat(quiz.solution(p10000000), is(1));
+
+        int[][] p100000000 = {
+                {1},
+                {1}
+        };
+        assertThat(quiz.solution(p100000000), is(1));
+
+
+        int[][] p2 = {
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 1, 1, 0, 0, 0},
+                {0, 1, 1, 1, 1, 0, 0},
+                {0, 1, 1, 1, 1, 0, 0},
+                {0, 0, 1, 1, 1, 0, 0},
+        };
+        assertThat(quiz.solution(p2), is(9));
     }
 }
