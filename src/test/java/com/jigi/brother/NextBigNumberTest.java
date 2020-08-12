@@ -1,5 +1,6 @@
 package com.jigi.brother;
 
+import com.jigi.brother.string.NextBigNumber;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,6 +14,8 @@ class NextBigNumberTest {
         assertThat(quiz.solution(0), is(0));
         assertThat(quiz.solution(78), is(83));
         assertThat(quiz.solution(15), is(23));
+
+        System.out.println(Integer.bitCount(10));
 
     }
 }
