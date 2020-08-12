@@ -1,6 +1,7 @@
 package com.jigi.brother.number;
 
 /**
+ * 햐사드 수
  * https://school.programmers.co.kr/courses/10586/lessons/67676
  */
 public class HashadNumber {
@@ -11,7 +12,6 @@ public class HashadNumber {
             sum += y % 10;
             y /= 10;
         }
-
-        return x % sum == 0 ? true : false;
+        return x % sum == 0;
     }
 }
