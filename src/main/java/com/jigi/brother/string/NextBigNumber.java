@@ -7,12 +7,24 @@ package com.jigi.brother.string;
 public class NextBigNumber {
     public int solution(int n) {
 
-        long countOne = countOneByDivide(n);
+        int countOne = countOneByShift(n);
 
         int answer = n;
-        while (0 < answer && answer < 1000000 && countOneByDivide(++answer) != countOne);
+        while (countOneByShift(++answer) != countOne) ;
 
         return answer;
+    }
+
+    private int countOneByShift(int i) {
+        int n = i;
+        int count = 0;
+
+        while (n > 0) {
+            if ((n & 1) == 1) count++;
+            n >>>= 1;
+        }
+
+        return count;
     }
 
     private int countOneByDivide(int i) {

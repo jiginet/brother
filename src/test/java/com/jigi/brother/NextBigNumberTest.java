@@ -11,7 +11,8 @@ class NextBigNumberTest {
     void nextBigNumberTest() {
         NextBigNumber quiz = new NextBigNumber();
 
-        assertThat(quiz.solution(0), is(0));
+        assertThat(quiz.solution(3), is(5));
+        assertThat(quiz.solution(6), is(9));
         assertThat(quiz.solution(78), is(83));
         assertThat(quiz.solution(15), is(23));
 
