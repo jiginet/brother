@@ -29,7 +29,7 @@ public class MockExam {
 
         return IntStream.range(0, scores.length)
                 .filter(i -> scores[i] == max)
-                .mapToObj(i -> Integer.parseInt(i + 1))
+                .mapToObj(i -> i + 1)
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
