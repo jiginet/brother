@@ -1,5 +1,6 @@
 package com.jigi.brother.array;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
@@ -11,15 +12,18 @@ public class MockExam {
 
         int[] correctAnswers = answers.clone();
 
-        int[] people1Answers = {1, 2, 3, 4, 5};
-        int[] people2Answers = {2, 1, 2, 3, 2, 4, 2, 5};
-        int[] people3Answers = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+        int[][] peoples = new int[][]{
+                {1, 2, 3, 4, 5},
+                {2, 1, 2, 3, 2, 4, 2, 5},
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5},
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
 
-        int[] scores = {0, 0, 0};
+        int[] scores = new int[peoples.length];
         for (int i = 0; i < correctAnswers.length; i++) {
-            if (correctAnswers[i] == people1Answers[i % people1Answers.length]) scores[0]++;
-            if (correctAnswers[i] == people2Answers[i % people2Answers.length]) scores[1]++;
-            if (correctAnswers[i] == people3Answers[i % people3Answers.length]) scores[2]++;
+            for (int j = 0; j < peoples.length; j++) {
+                if (correctAnswers[i] == peoples[j][i % peoples[j].length]) scores[j]++;
+            }
         }
 
         int max = IntStream.of(scores).max().orElse(0);
