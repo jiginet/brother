@@ -1,12 +1,10 @@
 package com.jigi.brother.array;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 /**
  * 모의고사
- *
+ * https://programmers.co.kr/learn/courses/30/lessons/42840
  */
 public class MockExam {
     public int[] solution(int[] answers) {
@@ -26,11 +24,10 @@ public class MockExam {
 
         int max = IntStream.of(scores).max().orElse(0);
 
-        List<Integer> maxAnswersList = new ArrayList<>();
-        for (int i = 0; i < scores.length; i++) {
-            if (scores[i] == max) maxAnswersList.add(i + 1);
-        }
-
-        return maxAnswersList.stream().mapToInt(Integer::intValue).toArray();
+        return IntStream.range(0, scores.length)
+                .filter(i -> scores[i] == max)
+                .mapToObj(i -> i + 1)
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
 }
