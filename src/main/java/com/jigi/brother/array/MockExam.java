@@ -1,6 +1,6 @@
 package com.jigi.brother.array;
 
-import java.util.stream.IntStream;
+import java.util.Arrays;
 
 /**
  * 모의고사
@@ -9,28 +9,49 @@ import java.util.stream.IntStream;
 public class MockExam {
     public int[] solution(int[] answers) {
 
-        int[] correctAnswers = answers.clone();
-
-        int[][] peoplesAnswers = new int[][]{
-                {1, 2, 3, 4, 5},
-                {2, 1, 2, 3, 2, 4, 2, 5},
-                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5},
-                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        Student[] students = new Student[]{
+                new Student(1, new int[]{1, 2, 3, 4, 5}),
+                new Student(2, new int[]{2, 1, 2, 3, 2, 4, 2, 5}),
+                new Student(3, new int[]{3, 3, 1, 1, 2, 2, 4, 4, 5, 5})
         };
 
-        int[] scores = new int[peoplesAnswers.length];
-        for (int i = 0; i < correctAnswers.length; i++) {
-            for (int j = 0; j < peoplesAnswers.length; j++) {
-                if (correctAnswers[i] == peoplesAnswers[j][i % peoplesAnswers[j].length]) scores[j]++;
+        int max = 0;
+        for (int i = 0; i < students.length; i++) {
+            students[i].scoreAnswers(answers);
+            if (students[i].getScore() > max) max = students[i].getScore();
+        }
+
+        final int maxScore = max;
+
+        return Arrays.stream(students)
+                .filter(std -> std.getScore() == maxScore)
+                .mapToInt(s -> s.getStudentId())
+                .sorted()
+                .toArray();
+    }
+
+    private class Student {
+        private int studentId;
+        private int[] answers;
+        private int score;
+
+        public Student(int studentId, int[] answers) {
+            this.studentId = studentId;
+            this.answers = answers;
+        }
+
+        public void scoreAnswers(int[] correctAnswers) {
+            for (int i = 0; i < correctAnswers.length; i++) {
+                if (correctAnswers[i] == answers[i % answers.length]) score++;
             }
         }
 
-        int max = IntStream.of(scores).max().orElse(0);
+        public int getStudentId() {
+            return studentId;
+        }
 
-        return IntStream.range(0, scores.length)
-                .filter(i -> scores[i] == max)
-                .mapToObj(i -> i + 1)
-                .mapToInt(Integer::intValue)
-                .toArray();
+        public int getScore() {
+            return score;
+        }
     }
 }

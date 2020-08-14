@@ -11,6 +11,6 @@ class MockExamTest {
         MockExam quiz = new MockExam();
 
         assertThat(quiz.solution(new int[]{1, 2, 3, 4, 5}), is(new int[]{1}));
-        assertThat(quiz.solution(new int[]{1, 3, 2, 4, 2}), is(new int[]{1, 2, 3, 4}));
+        assertThat(quiz.solution(new int[]{1, 3, 2, 4, 2}), is(new int[]{1, 2, 3}));
     }
 }
