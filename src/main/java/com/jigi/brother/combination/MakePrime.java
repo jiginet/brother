@@ -23,10 +23,8 @@ public class MakePrime {
             for (int i = 0; i < n; i++) {
                 if (visited[i]) {
                     sum += arr[i];
-//                    System.out.print(arr[i] + " ");
                 }
             }
-//            System.out.println();
             if (isPrime(sum)) answer++;
             return;
         }
@@ -40,13 +38,11 @@ public class MakePrime {
     
     // 소수판별
     private boolean isPrime(int num) {
-        boolean flag = true;
         for (int i = 2; i <= Math.sqrt(num); i++) {
             if (num % i == 0) {
-                flag = false;
-                break;
+                return false;
             }
         }
-        return flag;
+        return true;
     }
 }
