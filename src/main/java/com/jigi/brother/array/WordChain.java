@@ -10,19 +10,19 @@ import java.util.Set;
 public class WordChain {
     public int[] solution(int n, String[] words) {
         int[] answerCount = new int[n];
-        Set<String> pastAnswer = new HashSet<>();
+        Set<String> answerHistory = new HashSet<>();
 
         int[] answer = {0, 0};
         char lastLetter = findFirstLetter(words[0]);
         for (int i = 0; i < words.length; i++) {
             int peopleNumber = i % n;
-            if (pastAnswer.contains(words[i]) || findFirstLetter(words[i]) != lastLetter) {
+            if (answerHistory.contains(words[i]) || findFirstLetter(words[i]) != lastLetter) {
                 answer[0] = peopleNumber + 1;
                 answer[1] = answerCount[peopleNumber] + 1;
                 break;
             } else {
                 answerCount[peopleNumber]++;
-                pastAnswer.add(words[i]);
+                answerHistory.add(words[i]);
                 lastLetter = findLastLetter(words[i]);
             }
         }
