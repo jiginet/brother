@@ -1,5 +1,6 @@
 package com.jigi.brother.heap;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -8,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MoreSpicyTest {
 
     @Test
+    @DisplayName("더 맵게")
     void test1() {
         MoreSpicy s = new MoreSpicy();
 
@@ -19,7 +21,7 @@ public class MoreSpicyTest {
 
         assertThat(s.solution(new int[]{0, 0, 0}, 0), is(0));
 
-        assertThat(s.solution(new int[]{1, 1, 1}, 0), is(0));
+        assertThat(s.solution(new int[]{1, 2, 3}, 1), is(0));
 
         assertThat(s.solution(new int[]{0, 1, 2, 3}, 0), is(0));
 

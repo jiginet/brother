@@ -20,11 +20,10 @@ public class WordChain {
                 answer[0] = peopleNumber + 1;
                 answer[1] = answerCount[peopleNumber] + 1;
                 break;
-            } else {
-                answerCount[peopleNumber]++;
-                answerHistory.add(words[i]);
-                lastLetter = findLastLetter(words[i]);
             }
+            answerCount[peopleNumber]++;
+            answerHistory.add(words[i]);
+            lastLetter = findLastLetter(words[i]);
         }
 
         return answer;
