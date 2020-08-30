@@ -1,31 +1,32 @@
 package com.jigi.brother.heap;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
+@Slf4j
 public class RamenFactory {
+
     public int solution(int stock, int[] dates, int[] supplies, int k) {
 
-        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Integer> suppliesQueue = new PriorityQueue<>(Comparator.reverseOrder());
 
-        int idx = 0;
         int answer = 0;
-        for (int i = 1; i <= k; i++) {
+        int supplyDay = 0;
+        for (int day = 1; day < k; day++) {
             stock--;
-
-            if (stock == 0 && i < k) {
-                int j = idx;
-                while (j < dates.length && dates[j] <= i) {
-                    queue.offer(supplies[j]);
-                    j++;
-                }
-
-                idx = j;
-                answer++;
-                stock += queue.poll();
+            if (supplyDay < dates.length && dates[supplyDay] == day) {
+                suppliesQueue.offer(supplies[supplyDay]);
+                supplyDay++;
             }
-
+            if (stock == 0) {
+                stock = suppliesQueue.poll();
+                answer++;
+            }
         }
+
         return answer;
     }
+
 }

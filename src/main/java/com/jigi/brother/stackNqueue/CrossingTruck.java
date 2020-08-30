@@ -2,35 +2,37 @@ package com.jigi.brother.stackNqueue;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
+/**
+ * https://programmers.co.kr/learn/courses/30/lessons/42583
+ * 다리를 지나는 트럭
+ */
 public class CrossingTruck {
 
-    class Truck {
+    private class Truck {
         private final int weight;
-        private int distance;
+        private int movingDistance;
 
-        public Truck(int weight, int distance) {
+        public Truck(int weight) {
             this.weight = weight;
-            this.distance = distance;
+        }
+
+        public void crossBridge() {
+            this.movingDistance++;
+        }
+
+        public boolean isCrossedBridge(int bridgeLength) {
+            return movingDistance == bridgeLength;
         }
 
         public int getWeight() {
             return weight;
         }
-
-        public int getDistance() {
-            return distance;
-        }
-
-        public void setDistance(int distance) {
-            this.distance = distance;
-        }
     }
 
     /**
-     * 내가 푼 방식
+     * 내가 푼방식
+     *
      * @param bridge_length
      * @param weight
      * @param truck_weights
@@ -38,39 +40,33 @@ public class CrossingTruck {
      */
     public int solution(int bridge_length, int weight, int[] truck_weights) {
 
-        BlockingQueue<Truck> bridge = new ArrayBlockingQueue<>(bridge_length);
+        Queue<Truck> bridgeQueue = new LinkedList<>();
+        Queue<Truck> waitingQueue = new LinkedList<>();
 
-        int n = 0;
-        int answer = 0;
-        int sumWeight = 0;
-        int truckWeight = 0;
-        do {
-            answer++;
-            if (bridge.peek() != null) {
-                for (Truck t : bridge) {
-                    t.setDistance(t.getDistance() + 1);
-                }
+        for (int truckWeight : truck_weights) {
+            waitingQueue.add(new Truck(truckWeight));
+        }
 
-                if (bridge.peek().getDistance() > bridge_length) {
-                    Truck truck = bridge.poll();
-                    sumWeight -= truck.getWeight();
-                }
+        int seconds = 0;
+        int sumTrucksWeight = 0;
+        while (!waitingQueue.isEmpty() || !bridgeQueue.isEmpty()) {
+            if (!waitingQueue.isEmpty() && waitingQueue.peek().getWeight() + sumTrucksWeight <= weight) {
+                Truck truck = waitingQueue.poll();
+                sumTrucksWeight += truck.getWeight();
+                bridgeQueue.offer(truck);
             }
 
-            if (n < truck_weights.length) {
-                truckWeight = truck_weights[n];
-                if (weight >= truckWeight + sumWeight) {
-                    Truck newTruck = new Truck(truckWeight, 1);
-                    if (bridge.offer(newTruck)) {
-                        sumWeight += truckWeight;
-                        n++;
-                    }
-                }
-            }
-        } while (!bridge.isEmpty());
+            for (Truck truck : bridgeQueue) truck.crossBridge();
 
-        return answer;
+            if (bridgeQueue.peek().isCrossedBridge(bridge_length)) {
+                sumTrucksWeight -= bridgeQueue.poll().getWeight();
+            }
+            seconds++;
+        }
+
+        return seconds + 1;
     }
+
 
     /**
      * 다른사람이 푼 방식

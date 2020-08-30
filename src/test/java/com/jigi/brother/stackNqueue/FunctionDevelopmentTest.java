@@ -1,5 +1,6 @@
 package com.jigi.brother.stackNqueue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -8,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class FunctionDevelopmentTest {
 
     @Test
+    @DisplayName("기능개발")
     void functionDevelopmentTest() {
 
         FunctionDevelopment quiz = new FunctionDevelopment();
@@ -20,5 +22,4 @@ class FunctionDevelopmentTest {
         assertThat(quiz.solution2(p1, p2), is(r1));
 
     }
-
 }

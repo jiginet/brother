@@ -1,5 +1,8 @@
 package com.jigi.brother.dfsNbfs;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 네트워크
  * https://programmers.co.kr/learn/courses/30/lessons/43162
@@ -12,7 +15,8 @@ public class Network {
         for (int i = 0; i < n; i++) {
             if (visited[i] == true) continue;
             int[] count = {0};
-            dfs(computers, visited, i, count);
+            bfs(computers, visited, i, count);
+            // dfs(computers, visited, i, count); 결과는 동일하나, 노드를 방문하는 순서가 다름(dfs : 자식노드부터, bfs : 형제노드부터)
             if (count[0] == n) {
                 answer = 1;
                 break;
@@ -20,6 +24,22 @@ public class Network {
             answer++;
         }
         return answer;
+    }
+
+    public static void bfs(int[][] nodes, boolean[] visited, int node, int[] count) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            if (visited[node]) continue;
+            count[0]++;
+            visited[node] = true;
+            for (int i = 0; i < nodes.length; i++) {
+                if (nodes[node][i] == 1 && node != i) {
+                    queue.add(i);
+                }
+            }
+        }
     }
 
     private void dfs(int[][] nodes, boolean[] visited, int node, int[] count) {
