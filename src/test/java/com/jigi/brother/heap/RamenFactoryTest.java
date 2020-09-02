@@ -1,16 +1,18 @@
 package com.jigi.brother.heap;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- *  문제URL : https://programmers.co.kr/learn/courses/30/lessons/42629
+ * 문제URL : https://programmers.co.kr/learn/courses/30/lessons/42629
  */
 class RamenFactoryTest {
 
     @Test
+    @DisplayName("라면공장")
     void ramenFactoryTest() {
         RamenFactory quiz = new RamenFactory();
 
@@ -31,6 +33,12 @@ class RamenFactoryTest {
         int[] p300 = {20, 5, 10};
         int p400 = 30;
         assertThat(quiz.solution(p100, p200, p300, p400), is(1));
+
+        int p1000 = 10;
+        int[] p2000 = {2, 4, 6, 9, 10, 29};
+        int[] p3000 = {2, 2, 2, 10, 20, 30};
+        int p4000 = 30;
+        assertThat(quiz.solution(p1000, p2000, p3000, p4000), is(1));
 
     }
 

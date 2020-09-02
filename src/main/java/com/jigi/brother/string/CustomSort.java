@@ -13,7 +13,7 @@ public class CustomSort {
                 char a1 = a.charAt(n);
                 char b1 = b.charAt(n);
 
-                return a1 >= b1 ? (a1 == b1 ? 0 : 1) : -1;
+                return a1 - b1;
             }
         });
 

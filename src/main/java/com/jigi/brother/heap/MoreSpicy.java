@@ -2,40 +2,25 @@ package com.jigi.brother.heap;
 
 import java.util.PriorityQueue;
 
+/**
+ * 더 맵게
+ * https://programmers.co.kr/learn/courses/30/lessons/42626
+ */
 public class MoreSpicy {
 
     public int solution(int[] scoville, int K) {
-
         PriorityQueue<Integer> queue = new PriorityQueue<>();
-
-        int min = 0, max = 0;
-        for (int num : scoville) {
-            if (min > num) min = num;
-            if (max < num) max = num;
-            queue.offer(num);
+        for (int n : scoville) {
+            queue.offer(n);
         }
 
-        if (K == 0 && min > 0) {
-            return 0;
-        } else if (K > 0 && max == 0) {
-            return -1;
-        } else if (K == 0 && min == 0 && max == 0) {
-            return 0;
+        int answser = 0;
+        while (queue.peek() < K && queue.size() > 1) {
+            int s = queue.poll() + (queue.poll() * 2);
+            queue.offer(s);
+            answser++;
         }
 
-        int answer = 0;
-        while (queue.size() > 1 && queue.peek() < K) {
-            int x = queue.poll();
-            int y = queue.poll();
-            int score = x + (y * 2);
-            answer++;
-            if (queue.isEmpty()) {
-                if (score < K) answer = -1;
-            } else {
-                queue.offer(score);
-            }
-        }
-        return answer;
+        return queue.peek() >= K ? answser : -1;
     }
-
 }

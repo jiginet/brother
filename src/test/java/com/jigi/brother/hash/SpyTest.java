@@ -1,5 +1,6 @@
 package com.jigi.brother.hash;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -7,10 +8,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 class SpyTest {
 
-    /**
-     * 문제 : https://programmers.co.kr/learn/courses/30/lessons/42578
-     */
     @Test
+    @DisplayName("위장")
     void spyTest() {
         Spy quiz = new Spy();
 

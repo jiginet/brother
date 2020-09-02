@@ -1,77 +1,97 @@
 package com.jigi.brother.array;
 
-import java.awt.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class PassedRoad {
-    private final Set<String> passedRoad = new HashSet<>();
-    private final Point currentLocation = new Point(5, 5);
+
+    private class Point {
+        private final int x;
+        private final int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Point movePoint(char direction) {
+            int x = 0, y = 0;
+            switch (direction) {
+                case 'U':
+                    x = -1;
+                    break;
+                case 'D':
+                    x = 1;
+                    break;
+                case 'L':
+                    y = -1;
+                    break;
+                case 'R':
+                    y = 1;
+                    break;
+            }
+
+            int nextX = this.x;
+            if (this.x + x >= 0 && this.x + x <= 10) {
+                nextX += x;
+            }
+
+            int nextY = this.y;
+            if (this.y + y >= 0 && this.y + y <= 10) {
+                nextY += y;
+            }
+
+            return new Point(nextX, nextY);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Point point = (Point) o;
+            return x == point.x && y == point.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+
+    private class Path {
+        private final Point source;
+        private final Point destination;
+
+        public Path(Point source, Point destination) {
+            this.source = source;
+            this.destination = destination;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Path path = (Path) o;
+            return this.hashCode() == path.hashCode();
+        }
+
+        @Override
+        public int hashCode() {
+            return source.hashCode() + destination.hashCode();
+        }
+    }
 
     public int solution(String dirs) {
 
+        Point currentPoint = new Point(5, 5);
+        Set<Path> visitedPath = new HashSet<>();
         for (char direction : dirs.toCharArray()) {
-            move(currentLocation, direction);
+            Point nextPoint = currentPoint.movePoint(direction);
+            if (!currentPoint.equals(nextPoint)) visitedPath.add(new Path(currentPoint, nextPoint));
+            currentPoint = nextPoint;
         }
 
-        return passedRoad.size();
-    }
-
-    private void move(Point location, char direction) {
-        switch (direction) {
-            case 'U':
-                goingUp(location);
-                break;
-            case 'D':
-                goingDown(location);
-                break;
-            case 'L':
-                goingLeft(location);
-                break;
-            case 'R':
-                goingRight(location);
-                break;
-        }
-    }
-
-    private void goingUp(Point destination) {
-        Point source = new Point(destination.x, destination.y);
-        if (source.x > 0) {
-            destination.x--;
-        }
-        addPath(source, destination);
-    }
-
-    private void goingDown(Point destination) {
-        Point source = new Point(destination.x, destination.y);
-        if (source.x < 10) {
-            destination.x++;
-        }
-        addPath(source, destination);
-    }
-
-    private void goingLeft(Point destination) {
-        Point source = new Point(destination.x, destination.y);
-        if (source.y > 0) {
-            destination.y--;
-        }
-        addPath(source, destination);
-    }
-
-    private void goingRight(Point destination) {
-        Point source = new Point(destination.x, destination.y);
-        if (source.y < 10) {
-            destination.y++;
-        }
-        addPath(source, destination);
-    }
-
-    private void addPath(Point source, Point destination) {
-        if (source.x != destination.x || source.y != destination.y) {
-            String sourcePath = "" + source.x + source.y;
-            String destinationPath = "" + destination.x + destination.y;
-            String newPath = sourcePath.compareTo(destinationPath) == -1 ? sourcePath + destinationPath : destinationPath + sourcePath;
-            passedRoad.add(newPath);
-        }
+        return visitedPath.size();
     }
 }
