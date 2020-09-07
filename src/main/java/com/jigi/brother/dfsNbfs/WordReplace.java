@@ -1,107 +1,95 @@
 package com.jigi.brother.dfsNbfs;
 
+import java.util.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+/**
+ * 단어변환
+ * https://programmers.co.kr/learn/courses/30/lessons/43163
+ */
 public class WordReplace {
 
+    // BFS로 풀이함
     public int solution(String begin, String target, String[] words) {
 
-        int n = words.length;
-        String[] temp = Arrays.copyOf(words, n + 1);
-        temp[n] = begin;
+        int[] distance = new int[words.length];
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(begin);
 
-        HashMap<String, HashSet<String>> nodeMap = new HashMap<>();
+        Map<String, Integer> wordIndexes = new HashMap<>();
+        for (int i = 0; i < words.length; i++) wordIndexes.put(words[i], i);
 
-        for (String word : temp) {
-            HashSet<String> wordSet = new HashSet<>();
-            for (int i = 0; i < word.length(); i++) {
-                String regexp = word.substring(0, i) + "." + word.substring(i + 1);
-                if (nodeMap.get(word) != null) {
-                    wordSet = nodeMap.get(word);
+        int currentDistance = 0;
+        while (!queue.isEmpty()) {
+            String word = queue.poll();
+            if (!word.equals(begin)) {
+                int wordIndex = wordIndexes.get(word); // lookup 테이블(해시맵)을 사용하도록 변경
+                currentDistance = distance[wordIndex];
+            }
+
+            for (int i = 0; i < words.length; i++) {
+                if (distance[i] != 0) continue;
+                if (isChangable(word, words[i])) {
+                    distance[i] = currentDistance + 1;
+                    queue.offer(words[i]);
+                    if (words[i].equals(target)) return distance[i];
                 }
-                getHashSet(temp, regexp, wordSet);
             }
-            nodeMap.put(word, wordSet);
         }
 
-        return dijkstra(nodeMap, begin, target);
+        return 0;
     }
 
-
-    private void getHashSet(String[] words, String regexp, HashSet<String> wordSet) {
-        Pattern pattern = Pattern.compile(regexp);
-        for (String word : words) {
-            Matcher matcher = pattern.matcher(word);
-            if (matcher.find()) {
-                wordSet.add(word);
-            }
+    private boolean isChangable(final String s1, final String s2) {
+        int mismatchCount = 0;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) mismatchCount++;
+            if (mismatchCount > 1) return false;
         }
+        return true;
     }
 
-    private int dijkstra(HashMap<String, HashSet<String>> nodeMap, String startNode, String targetNode) {
+    // 다익스트라로 풀이함
+    public int solution2(String begin, String target, String[] words) {
 
-        int n = nodeMap.size();
-        HashMap<String, Boolean> visited = new HashMap<>();
-        HashMap<String, Integer> distance = new HashMap<>();
+        final int targetIndex = Arrays.asList(words).indexOf(target);
+        if (targetIndex == -1) return 0;
 
-        for (String node : nodeMap.keySet()) {
-            visited.put(node, false);
-            distance.put(node, Integer.MAX_VALUE);
-        }
+        final int wordsSize = words.length;
+        boolean[] visited = new boolean[wordsSize];
+        int[] distance = new int[wordsSize];
+        Arrays.fill(distance, Integer.MAX_VALUE);
 
-        visited.put(startNode, true);
-        distance.put(startNode, 0);
-
-        for (String node : nodeMap.get(startNode)) {
-            if (!visited.get(node)) {
-                distance.put(node, 1);
+        for (int i = 0; i < wordsSize; i++) {
+            if (isChangable(words[i], begin) && !visited[i]) {
+                distance[i] = 1;
             }
         }
 
-        StringBuffer path = new StringBuffer("노드 이동경로 : ").append(startNode);
-
-        for (int i = 1; i <= n - 1; i++) {
-
+        for (int i = 0; i < wordsSize; i++) {
             int min = Integer.MAX_VALUE;
-            String minIndex = "";
+            int minIndex = -1;
 
-            // 방문한 적이 없고, 연결된 노드 중 가장 가까운 거리에 있는 노드 구하기
-            for (String node : visited.keySet()) {
-                if (!visited.get(node) && distance.get(node) != Integer.MAX_VALUE) {
-                    if (distance.get(node) < min) {
-                        min = distance.get(node);
-                        minIndex = node;
+            for (int j = 0; j < wordsSize; j++) {
+                if (!visited[j] && distance[j] != Integer.MAX_VALUE) {
+                    if (distance[j] < min) {
+                        min = distance[j];
+                        minIndex = j;
                     }
                 }
             }
 
-            // 연결된 노드를 찾지 못하면 건너뜀 
-            if (visited.get(minIndex) == null) continue;
+            if (words[minIndex].equals(target)) break;
+            visited[minIndex] = true;
 
-            visited.put(minIndex, true);
-            path.append(", ").append(minIndex);
-
-            for (String linkedNode : nodeMap.get(minIndex)) {
-                if (!visited.get(linkedNode)) {
-                    if (distance.get(linkedNode) > distance.get(minIndex) + 1) {
-                        distance.put(linkedNode, distance.get(minIndex) + 1);
+            for (int k = 0; k < wordsSize; k++) {
+                if (!visited[k] && isChangable(words[minIndex], words[k])) {
+                    if (distance[k] > distance[minIndex] + 1) {
+                        distance[k] = distance[minIndex] + 1;
                     }
                 }
             }
         }
 
-        System.out.println(path);
-
-        for (String node : distance.keySet()) {
-            System.out.print(node + "(" + distance.get(node) + "), ");
-        }
-
-        return distance.get(targetNode) == null ? 0 : distance.get(targetNode);
+        return distance[targetIndex];
     }
-
 }
