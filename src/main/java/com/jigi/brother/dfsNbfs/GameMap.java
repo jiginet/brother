@@ -44,12 +44,10 @@ public class GameMap {
 
             for (int i = 0; i < mapHeight; i++) {
                 for (int j = 0; j < mapWidth; j++) {
-                    if (visited[i][j] || maps[i][j] != 1) continue;
-                    if (canMove(node, i, j)) {
-                        visited[i][j] = true;
-                        queue.offer(new Node(i, j, node.getDistance() + 1));
-                        if (i == mapHeight - 1 && j == mapWidth - 1) return node.getDistance() + 1;
-                    }
+                    if (visited[i][j] || maps[i][j] != 1 || !canMove(node, i, j)) continue;
+                    visited[i][j] = true;
+                    queue.offer(new Node(i, j, node.getDistance() + 1));
+                    if (i == mapHeight - 1 && j == mapWidth - 1) return node.getDistance() + 1;
                 }
             }
         }
