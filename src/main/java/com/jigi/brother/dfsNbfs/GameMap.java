@@ -8,7 +8,7 @@ public class GameMap {
     private class Node {
         private final int x;
         private final int y;
-        private int distance;
+        private final int distance;
 
         public Node(int x, int y, int distance) {
             this.x = x;
@@ -42,8 +42,8 @@ public class GameMap {
         while (!queue.isEmpty()) {
             Node node = queue.poll();
 
-            for (int i = 0; i < mapHeight; i++) {
-                for (int j = 0; j < mapWidth; j++) {
+            for (int i = getBeginPoint(node.getX()); i < getEndPoint(node.getX(), mapHeight); i++) {
+                for (int j = getBeginPoint(node.getY()); j < getEndPoint(node.getY(), mapWidth); j++) {
                     if (visited[i][j] || maps[i][j] != 1 || !canMove(node, i, j)) continue;
                     visited[i][j] = true;
                     queue.offer(new Node(i, j, node.getDistance() + 1));
@@ -54,9 +54,16 @@ public class GameMap {
         return -1;
     }
 
+    private int getBeginPoint(int point) {
+        return point - 1 <= 0 ? 0 : point - 1;
+    }
+
+    private int getEndPoint(int point, int maxPoint) {
+        return point + 2 >= maxPoint ? maxPoint : point + 2;
+    }
+
     private boolean canMove(Node node, int x, int y) {
-        if ((Math.abs(node.getX() - x) == 1 && node.getY() == y)
-                || (Math.abs(node.getY() - y) == 1 && node.getX() == x)) return true;
-        return false;
+        return (Math.abs(node.getX() - x) == 1 && node.getY() == y)
+                || (Math.abs(node.getY() - y) == 1 && node.getX() == x);
     }
 }
