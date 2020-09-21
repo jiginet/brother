@@ -13,10 +13,10 @@ class Question1Test {
     void test1() {
         Question1 quiz = new Question1();
 
-        assertThat(quiz.solution("AZ"), is(1L));
+        assertThat(Question1.solution("AZ"), is(1L));
 
-        assertThat(quiz.solution("AZGB"), is(13L));
+        assertThat(Question1.solution("AZGB"), is(13L));
 
-        assertThat(quiz.solution("ZNMD"), is(23L));
+        assertThat(Question1.solution("ZNMD"), is(22L));
     }
 }
